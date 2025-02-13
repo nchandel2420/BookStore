@@ -1,0 +1,27 @@
+version: '3.9'
+
+services:
+  book_store_app:
+    container_name: book_store_app
+    build: .
+    environment:
+      DATABASE_URL: "host=book_store_db user=postgres password=postgres dbname=postgres sslmode=disable"
+    ports:
+      - "8080:8080"
+    depends_on:
+      - book_store_db
+
+  book_store_db:
+    container_name: book_store_db
+    image: postgres:12
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    volumes: 
+      - bookdata:/var/lib/postgresql/data
+
+volumes:
+    bookdata: {}
